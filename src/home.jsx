@@ -11,10 +11,6 @@ import {
   FaChessQueen,
   FaChessKnight,
 } from "react-icons/fa";
-import maskot_error from "./assets/robot-1.png";
-import maskot_warning from "./assets/robot-2.png";
-import maskot_loading from "./assets/robot-3.png";
-import maskot_success from "./assets/robot-4.png";
 import { WordleGame } from "./components/templates/wordle";
 import sponsor from "./assets/sponsor.png"
 import { RiTwitterXFill } from "react-icons/ri";
@@ -350,13 +346,17 @@ export const App = () => {
 
   return (
     <div className="app-wrapper">
-      <span className="df aic jcc follow">
+      <span
+        className="df aic jcc follow"
+        onClick={() => window.open("https://x.com/scryptedpass", "_blank")}
+      >
         <RiTwitterXFill />
       </span>
       <div className="df fdc aic gap-5">
-        <h1 className="title">The Enchanted Password</h1>
+        <h1 className="title">Scripted Password</h1>
         <span>
-          Try to come up with the perfect password that meets all the rules below.
+          Try to come up with the perfect password that meets all the rules
+          below.
         </span>
       </div>
       <div className="glass-card">
@@ -393,15 +393,27 @@ export const App = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
-              className={`rule ${i === 0
-                ? status
-                : rule.validate(password)
+              className={`rule ${
+                i === 0
+                  ? status
+                  : rule.validate(password)
                   ? "passed"
                   : "pending"
-                } df fdc gap-5 glass-card`}
+              } df fdc gap-5 glass-card`}
             >
-              <span className="w100 df aic gap-5">{rule.validate(password) ? <BsCheck2 className="check" /> : <RxCross2 className="cross" />}Rule #{rule.id}</span>
-              {rule.component ? <rule.component setOpenWordle={setOpenWordle} /> : rule.desc}
+              <span className="w100 df aic gap-5">
+                {rule.validate(password) ? (
+                  <BsCheck2 className="check" />
+                ) : (
+                  <RxCross2 className="cross" />
+                )}
+                Rule #{rule.id}
+              </span>
+              {rule.component ? (
+                <rule.component setOpenWordle={setOpenWordle} />
+              ) : (
+                rule.desc
+              )}
             </motion.div>
           ))}
         </AnimatePresence>
