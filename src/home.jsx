@@ -12,10 +12,15 @@ import {
   FaChessKnight,
 } from "react-icons/fa";
 import { WordleGame } from "./components/templates/wordle";
-import sponsor from "./assets/sponsor.png"
+import sponsor from "./assets/sponsor.png";
 import { RiTwitterXFill } from "react-icons/ri";
 import { BsCheck2 } from "react-icons/bs";
 import { RxCross2 } from "react-icons/rx";
+
+const env = window.__ENV || {
+  TITLE: "Hardest Password Alive",
+  X_LINK: "https://x.com/hardestpassword",
+};
 
 const randomCaptcha = () =>
   Array.from(
@@ -30,7 +35,7 @@ const randomGeo = () => {
     { lat: 59.9139, lng: 10.7522, city: "Oslo" },
     { lat: 48.8566, lng: 2.3522, city: "Paris" },
     { lat: 51.5074, lng: -0.1278, city: "London" },
-    { lat: 40.7128, lng: -74.0060, city: "New York" },
+    { lat: 40.7128, lng: -74.006, city: "New York" },
     { lat: 34.0522, lng: -118.2437, city: "Los Angeles" },
     { lat: 37.7749, lng: -122.4194, city: "San Francisco" },
     { lat: 41.9028, lng: 12.4964, city: "Rome" },
@@ -138,8 +143,9 @@ const ChessComponent = () => {
           {board.map((piece, i) => (
             <div
               key={i}
-              className={`chess-cell ${(Math.floor(i / 8) + i) % 2 === 0 ? "cell-light" : "cell-dark"
-                }`}
+              className={`chess-cell ${
+                (Math.floor(i / 8) + i) % 2 === 0 ? "cell-light" : "cell-dark"
+              }`}
             >
               {renderPiece(piece)}
             </div>
@@ -171,12 +177,19 @@ const ChessComponent = () => {
 const SponsorComponent = () => (
   <div className="rule-special">
     <span>Include any sponsor name your password</span>
-    <img src={sponsor} alt="Sponsor" className="w100 sponsor-logo" style={{ background: "#ffffff50", borderRadius: "5px" }} />
+    <img
+      src={sponsor}
+      alt="Sponsor"
+      className="w100 sponsor-logo"
+      style={{ background: "#ffffff50", borderRadius: "5px" }}
+    />
   </div>
 );
 export const CaptchaComponent = () => {
   const letters = captchaValue.split("").map((char, i) => (
-    <span key={i} className={`captcha-char char-${i}`}>{char}</span>
+    <span key={i} className={`captcha-char char-${i}`}>
+      {char}
+    </span>
   ));
 
   return (
@@ -189,27 +202,64 @@ export const CaptchaComponent = () => {
 
 const GeoComponent = () => (
   <div className="rule-special">
-    <span className="geo-text">Include the name of the country to which these coordinates belong</span>
+    <span className="geo-text">
+      Include the name of the country to which these coordinates belong
+    </span>
     <span className="geo-text">
       Geo Coordinates: {geoValue.lat}, {geoValue.lng}
     </span>
   </div>
 );
 
-const Words = ["leech", "close", "tenth", "pecan", "droit", "grail", "clone", "guise", "ralph", "tango", "biddy", "smith", "mower", "payee", "serif", "drape", "fifth", "spank", "glaze", "allot", "truck", "kayak", "virus", "testy", "tepee", "fully", "zonal", "metro", "curry", "grand"];
+const Words = [
+  "leech",
+  "close",
+  "tenth",
+  "pecan",
+  "droit",
+  "grail",
+  "clone",
+  "guise",
+  "ralph",
+  "tango",
+  "biddy",
+  "smith",
+  "mower",
+  "payee",
+  "serif",
+  "drape",
+  "fifth",
+  "spank",
+  "glaze",
+  "allot",
+  "truck",
+  "kayak",
+  "virus",
+  "testy",
+  "tepee",
+  "fully",
+  "zonal",
+  "metro",
+  "curry",
+  "grand",
+];
 
-const getRandomWord = () => Words[Math.floor(Math.random() * Words.length)].toUpperCase();
+const getRandomWord = () =>
+  Words[Math.floor(Math.random() * Words.length)].toUpperCase();
 const word = getRandomWord();
 const WordleComponent = ({ setOpenWordle }) => {
-  return <div className="rule special">
-    <span className="wordle-text">
-      Include the answer to the Wordle puzzle in your password
-    </span> <br />
-    <button className="wordle-btn" onClick={() => setOpenWordle(true)}>
-      {"Open Wordle"}
-    </button>
-  </div>
-}
+  return (
+    <div className="rule special">
+      <span className="wordle-text">
+        Include the answer to the Wordle puzzle in your password
+      </span>{" "}
+      <br />
+      <button className="wordle-btn" onClick={() => setOpenWordle(true)}>
+        {"Open Wordle"}
+      </button>
+    </div>
+  );
+};
 const usePasswordStore = create((set) => ({
   password: "",
   setPassword: (pwd) => set({ password: pwd }),
@@ -262,7 +312,10 @@ const rules = [
   {
     id: 9,
     desc: "Include any sponsor name your password",
-    validate: (pwd) => ["netflix", "spacex", "openai", "tesla", "starbucks"].includes(pwd.toLowerCase()),
+    validate: (pwd) =>
+      ["netflix", "spacex", "openai", "tesla", "starbucks"].includes(
+        pwd.toLowerCase()
+      ),
     component: SponsorComponent,
   },
   {
@@ -348,12 +401,12 @@ export const App = () => {
     <div className="app-wrapper">
       <span
         className="df aic jcc follow"
-        onClick={() => window.open("https://x.com/scryptedpass", "_blank")}
+        onClick={() => window.open(env.X_LINK, "_blank")}
       >
         <RiTwitterXFill />
       </span>
       <div className="df fdc aic gap-5">
-        <h1 className="title">Scripted Password</h1>
+        <h1 className="title">{env.TITLE}</h1>
         <span>
           Try to come up with the perfect password that meets all the rules
           below.
